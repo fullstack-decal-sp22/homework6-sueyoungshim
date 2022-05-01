@@ -1,4 +1,5 @@
-import {useState} from "react";
+import axios from "axios";
+import { useState } from "react";
 
 const NewPost = () => {
   const [id, setId] = useState();
@@ -10,8 +11,14 @@ const NewPost = () => {
       id,
       title,
       body
-    })
+    });
+    axios.post('http://localhost:3002/post', { "id": id, "title": title, "body": body })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch((error) => console.log(error));
   }
+
 
   return <div>
     <div>
@@ -23,7 +30,7 @@ const NewPost = () => {
     <div>
       <input type="text" placeholder="Body" value={body} onChange={e => setBody(e.target.value)} />
     </div>
-    <button style={{ marginTop: '4px'}} onClick={onSubmit}>
+    <button style={{ marginTop: '4px' }} onClick={onSubmit}>
       Submit
     </button>
   </div>
